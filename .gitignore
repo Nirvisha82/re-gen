@@ -1,0 +1,14 @@
+# Root
+node_modules/
+dist/
+.env
+
+# Server
+/server/.env/
+/server/node_modules/
+/server/dist/
+
+# Client
+/client/.next/
+/client/node_modules/
+/client/.env/

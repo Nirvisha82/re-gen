@@ -11,9 +11,8 @@ export class LLMService {
     return `https://generativelanguage.googleapis.com/v1beta/models/${this.modelName}:generateContent`;
   }
 
-
   async generateReply(subject: string, body: string): Promise<string> {
-    console.log("~~~~~~ Generating content ~~~~~~~")
+    console.log('~~~~~~ Generating content ~~~~~~~');
     const prompt = this.buildPrompt(subject, body);
 
     try {
@@ -22,9 +21,7 @@ export class LLMService {
         {
           contents: [
             {
-              parts: [
-                { text: prompt },
-              ],
+              parts: [{ text: prompt }],
             },
           ],
         },
@@ -34,6 +31,7 @@ export class LLMService {
       );
 
       const reply = response.data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      console.log('LLM REPLY =================> ', reply);
       return reply || 'Could not generate a response.';
     } catch (error) {
       this.logger.error('LLM generation failed', error);

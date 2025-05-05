@@ -209,7 +209,7 @@ export class GmailService {
     // 4. Build raw RFC2822 message
     const rawLines = [
       `To: ${to}`,
-      cc ? `Cc: ${cc}` : null,
+      ...(cc ? [`Cc: ${cc}`] : []),
       `Subject: ${subject}`,
       `In-Reply-To: ${inReplyTo}`,
       `References: ${references}`,
@@ -218,23 +218,18 @@ export class GmailService {
       'Content-Transfer-Encoding: 7bit',
       '',
       replyContent,
-    ].filter(Boolean);
+    ];
 
-    const encodedMessage = Buffer.from(rawLines.join('\r\n'))
-      .toString('base64')
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=+$/, '');
+    const encodedMessage = Buffer.from(rawLines.join('\r\n'), 'utf-8').toString(
+      'base64url',
+    );
 
-    // 5. Create draft in thread, with visible To and Cc
     const draft = await gmail.users.drafts.create({
       userId: 'me',
       requestBody: {
         message: {
           raw: encodedMessage,
           threadId,
-          to,
-          ...(cc ? { cc } : {}),
         },
       },
     });

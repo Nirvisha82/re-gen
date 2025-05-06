@@ -22,7 +22,7 @@ export class GmailController {
   @Get('auth/callback')
   async authCallback(@Query('code') code: string, @Res() res: any) {
     await this.gmailService.handleOAuthCallback(code);
-    return res.send('Gmail auto-reply activated!');
+    return res.redirect('http://localhost:3000/activated');
   }
 
   @Post('pubsub/push')

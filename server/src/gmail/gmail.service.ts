@@ -4,6 +4,7 @@ import { PubSub } from '@google-cloud/pubsub';
 import { LLMService } from '../llm/llm.service';
 import * as fs from 'fs';
 import * as path from 'path';
+import { UserRepository } from '../database/user.repository';
 
 @Injectable()
 export class GmailService {
@@ -11,13 +12,8 @@ export class GmailService {
   private gmail;
   private pubsub: PubSub;
   private logger = new Logger(GmailService.name);
-  private readonly historyPath = path.join(__dirname, '..', 'history.json');
-  private readonly userStorePath = path.join(
-    process.cwd(),
-    'src',
-    'data',
-    'users.json',
-  );
+  private readonly userRepo = new UserRepository();
+
   private readonly llmService: LLMService;
   private CLIENT_ID = `${process.env.CLIENT_ID}`;
   private CLIENT_SECRET = `${process.env.CLIENT_SECRET}`;
@@ -67,15 +63,21 @@ export class GmailService {
         topicName: this.PUB_SUB_TOPIC,
       },
     });
-    this.saveUser(userEmail, {
-      tokens,
-      historyId: res.data.historyId,
+    this.userRepo.saveOrUpdate({
+      email: userEmail,
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+      token_type: tokens.token_type,
+      scope: tokens.scope,
+      refresh_token_expires_in: tokens.refresh_token_expires_in,
+      expiry_date: tokens.expiry_date,
+      history_id: res.data.historyId,
     });
 
-    // Save initial historyId
-    if (res.data.historyId) {
-      this.saveHistoryId(res.data.historyId);
-    }
+    const allUsers = this.userRepo.getAllUsers();
+    console.log('====== All Users in DB ======');
+    console.log(allUsers);
+    
 
     return tokens;
   }
@@ -85,7 +87,7 @@ export class GmailService {
     console.log('^^^^^ Handling Push Notification ^^^^^^');
 
     const userEmail = this.userEmail; // TODO: Replace with dynamic mapping later
-    const user = this.getUser(userEmail);
+    const user = this.userRepo.findByEmail(userEmail);
 
     if (!user) {
       this.logger.error(`User ${userEmail} not found`);
@@ -94,7 +96,8 @@ export class GmailService {
 
     try {
       // Rehydrate Gmail client with stored user tokens
-      const gmail = this.getGmailClientFromTokens(user.tokens);
+      const gmail = this.getGmailClientFromTokens(user);
+
 
       // Decode the Pub/Sub push message
       const msg = JSON.parse(
@@ -102,12 +105,12 @@ export class GmailService {
       );
       const pushHistoryId = String(msg.historyId);
 
-      this.logger.log(`Using historyId: ${user.historyId}`);
+      this.logger.log(`Using historyId: ${user.history_id}`);
 
       // Fetch new messages since last known historyId
       const res = await gmail.users.history.list({
         userId: 'me',
-        startHistoryId: String(user.historyId),
+        startHistoryId: String(user.history_id),
         historyTypes: ['messageAdded'],
       });
 
@@ -120,7 +123,7 @@ export class GmailService {
 
       // Save the new historyId only if Gmail successfully responded
       const newHistoryId = res.data.historyId || pushHistoryId;
-      this.saveUser(userEmail, { historyId: newHistoryId });
+      this.userRepo.updateHistoryId(userEmail, newHistoryId);
       this.logger.log(`Updated historyId to: ${newHistoryId}`);
     } catch (err) {
       this.logger.error('Error handling push notification:', err);
@@ -128,7 +131,7 @@ export class GmailService {
       if (err.message?.includes('Requested entity was not found')) {
         this.logger.warn('History ID expired. Resetting Gmail watch.');
 
-        const authClient = this.getGmailClientFromTokens(user.tokens);
+        const authClient = this.getGmailClientFromTokens(user);
         const res = await authClient.users.watch({
           userId: 'me',
           requestBody: {
@@ -138,9 +141,10 @@ export class GmailService {
         });
 
         if (res.data.historyId) {
-          this.saveUser(userEmail, { historyId: res.data.historyId });
+          this.userRepo.updateHistoryId(userEmail, res.data.historyId);
           this.logger.log(`Watch reset. New historyId: ${res.data.historyId}`);
         }
+        
       }
     }
   }
@@ -239,34 +243,6 @@ export class GmailService {
     );
   }
 
-  private loadUserStore(): Record<string, any> {
-    if (!fs.existsSync(this.userStorePath)) return {};
-    return JSON.parse(fs.readFileSync(this.userStorePath, 'utf-8'));
-  }
-
-  // Save entire user store
-  private saveUserStore(store: Record<string, any>) {
-    fs.writeFileSync(this.userStorePath, JSON.stringify(store, null, 2));
-  }
-
-  // Save or update a single user
-  private saveUser(email: string, data: any) {
-    const store = this.loadUserStore();
-    store[email] = { ...(store[email] || {}), ...data };
-    this.saveUserStore(store);
-  }
-
-  // Load one user's data
-  private getUser(email: string): any {
-    const store = this.loadUserStore();
-    return store[email];
-  }
-
-  // ========== Local History Storage
-  private saveHistoryId(id: string | number) {
-    fs.writeFileSync(this.historyPath, JSON.stringify({ historyId: id }));
-    this.logger.log(`Saved new historyId: ${id}`);
-  }
 
   private async extractEmailBody(
     messageId: string,

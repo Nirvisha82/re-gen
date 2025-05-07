@@ -74,19 +74,23 @@ export class GmailService {
       history_id: res.data.historyId,
     });
 
-    const allUsers = this.userRepo.getAllUsers();
-    console.log('====== All Users in DB ======');
-    console.log(allUsers);
-    
-
     return tokens;
   }
 
   // 3) Handle Pub/Sub push
   async handlePushNotification(reqBody: any) {
     console.log('^^^^^ Handling Push Notification ^^^^^^');
+    
+    const msg = JSON.parse(
+      Buffer.from(reqBody.message.data, 'base64').toString(),
+    );
 
-    const userEmail = this.userEmail; // TODO: Replace with dynamic mapping later
+
+
+    const userEmail = msg.emailAddress;  // Gmail includes this
+    const historyId = msg.historyId;
+  
+    this.logger.log(`Push received for user: ${userEmail}, historyId: ${historyId}`);
     const user = this.userRepo.findByEmail(userEmail);
 
     if (!user) {
@@ -94,45 +98,49 @@ export class GmailService {
       return;
     }
 
-    try {
-      // Rehydrate Gmail client with stored user tokens
-      const gmail = this.getGmailClientFromTokens(user);
+      // Auth Gmail client from stored tokens
+    const gmail = this.getGmailClientFromTokens(user);
+
+    // try {
+    //   // Rehydrate Gmail client with stored user tokens
+    //   const gmail = this.getGmailClientFromTokens(user);
 
 
-      // Decode the Pub/Sub push message
-      const msg = JSON.parse(
-        Buffer.from(reqBody.message.data, 'base64').toString(),
-      );
-      const pushHistoryId = String(msg.historyId);
+    //   // Decode the Pub/Sub push message
+    //   const msg = JSON.parse(
+    //     Buffer.from(reqBody.message.data, 'base64').toString(),
+    //   );
+    //   const pushHistoryId = String(msg.historyId);
 
-      this.logger.log(`Using historyId: ${user.history_id}`);
+    //   this.logger.log(`Using historyId: ${user.history_id}`);
 
       // Fetch new messages since last known historyId
-      const res = await gmail.users.history.list({
-        userId: 'me',
-        startHistoryId: String(user.history_id),
-        historyTypes: ['messageAdded'],
-      });
+      try {
+        // Fetch new messages since last known history
+        const res = await gmail.users.history.list({
+          userId: 'me',
+          startHistoryId: String(user.history_id),
+          historyTypes: ['messageAdded'],
+        });
 
-      const historyItems = res.data.history || [];
-      for (const history of historyItems) {
-        for (const message of history.messages || []) {
-          await this.createDraftReply(message.id, userEmail, gmail);
+        const historyItems = res.data.history || [];
+        for (const history of historyItems) {
+          for (const message of history.messages || []) {
+            await this.createDraftReply(message.id, userEmail, gmail);
+          }
         }
-      }
+    
 
-      // Save the new historyId only if Gmail successfully responded
-      const newHistoryId = res.data.historyId || pushHistoryId;
+      // Save new historyId
+      const newHistoryId = res.data.historyId || historyId;
       this.userRepo.updateHistoryId(userEmail, newHistoryId);
-      this.logger.log(`Updated historyId to: ${newHistoryId}`);
+      this.logger.log(`Updated historyId for ${userEmail} to: ${newHistoryId}`);
     } catch (err) {
-      this.logger.error('Error handling push notification:', err);
+      this.logger.error(`Failed to process Gmail push for ${userEmail}`, err);
 
       if (err.message?.includes('Requested entity was not found')) {
-        this.logger.warn('History ID expired. Resetting Gmail watch.');
-
-        const authClient = this.getGmailClientFromTokens(user);
-        const res = await authClient.users.watch({
+        this.logger.warn('History ID expired. Resetting watch...');
+        const res = await gmail.users.watch({
           userId: 'me',
           requestBody: {
             labelIds: ['INBOX'],

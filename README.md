@@ -16,7 +16,6 @@ Re:Gen is an intelligent Gmail auto-reply assistant built with NestJS that uses 
 - **🧠 AI-Powered Responses**: Gemini Pro for intelligent reply generation
 - **👤 Multi-User Support**: OAuth2-based Gmail authentication
 - **🔧 Modular Architecture**: NestJS modules for scalable development
-- **🌐 CORS Enabled**: Cross-origin resource sharing support
 
 ## 🛠️ Tech Stack
 
@@ -225,35 +224,12 @@ CMD ["node", "dist/main"]
 ### Getting API Keys
 - **Gemini API**: [Google AI Studio](https://makersuite.google.com/app/apikey)
 - **Google OAuth2**: [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Port Already in Use**
-```bash
-# Kill process on port 8080
-lsof -ti:8080 | xargs kill -9
-```
-
-**Module Import Errors**
-```bash
-# Clean install dependencies
-rm -rf node_modules package-lock.json
-npm install
-```
-
-**TypeScript Compilation Issues**
-```bash
-# Clean build
-npm run build
-```
-
+- 
 ## 👥 Contributors
 
-- **[Nirvisha Soni](https://github.com/Nirvisha82)** - Lead Developer
-- **[Neel Malwatkar](https://github.com/neelmalwatkar)** - Backend Developer  
-- **[Anuj Gawde](https://github.com/anujgawde)** - System Integration
+- **[Nirvisha Soni](https://github.com/Nirvisha82)** 
+- **[Neel Malwatkar](https://github.com/neelmalwatkar)**
+- **[Anuj Gawde](https://github.com/anujgawde)** 
 
 ## 📄 License
 

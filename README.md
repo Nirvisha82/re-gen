@@ -28,25 +28,6 @@ Re:Gen is an intelligent Gmail auto-reply assistant built with NestJS that uses 
 | **AI Model** | Gemini Pro |
 | **Port** | 8080 |
 
-## 📁 Project Structure
-
-```
-re-gen/
-├── src/
-│   ├── gmail/              # Gmail module for API operations
-│   │   └── gmail.module.ts
-│   ├── llm/                # LLM service for Gemini integration
-│   │   └── llm.service.ts
-│   ├── app.controller.ts   # Main application controller
-│   ├── app.module.ts       # Root application module
-│   ├── app.service.ts      # Application service layer
-│   └── main.ts            # Application entry point
-├── test/
-│   └── app.controller.spec.ts
-├── package.json
-├── tsconfig.json
-└── README.md
-```
 
 ## 🔧 Installation & Setup
 
@@ -143,74 +124,6 @@ The application will be accessible at `http://localhost:8080`
 - Gemini API integration
 - Response generation
 - Prompt processing
-
-## 🌐 API Configuration
-
-The application runs on port **8080** with the following configurations:
-
-```typescript
-// main.ts configurations
-- Body Parser: JSON parsing enabled
-- CORS: Cross-origin requests allowed
-- Port: 8080 (default)
-```
-
-## 🧪 Testing
-
-```bash
-# Run unit tests
-npm run test
-
-# Run test coverage
-npm run test:cov
-
-# Run e2e tests
-npm run test:e2e
-```
-
-### Test Structure
-```typescript
-describe('AppController', () => {
-  // Unit tests for application controller
-  // Test module compilation
-  // Service integration tests
-});
-```
-
-## 🚀 Deployment
-
-### Development
-```bash
-npm run start:dev
-```
-
-### Production Build
-```bash
-npm run build
-npm run start:prod
-```
-
-### Docker Deployment
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY dist ./dist
-EXPOSE 8080
-CMD ["node", "dist/main"]
-```
-
-## 📝 Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run start` | Start application |
-| `npm run start:dev` | Start in development mode |
-| `npm run start:prod` | Start in production mode |
-| `npm run build` | Build application |
-| `npm run test` | Run unit tests |
-| `npm run test:e2e` | Run end-to-end tests |
 
 ## 🔧 Configuration
 

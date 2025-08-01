@@ -5,7 +5,6 @@
   <img src="https://img.shields.io/badge/NestJS-Framework-red.svg" alt="NestJS">
   <img src="https://img.shields.io/badge/AI-Gemini%20Pro-orange.svg" alt="Gemini AI">
   <img src="https://img.shields.io/badge/TypeScript-Language-blue.svg" alt="TypeScript">
-  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
 </p>
 
 Re:Gen is an intelligent Gmail auto-reply assistant built with NestJS that uses Google Cloud's Pub/Sub for real-time email monitoring and Google's Gemini AI for generating contextually appropriate responses.
@@ -144,9 +143,6 @@ The application will be accessible at `http://localhost:8080`
 - **[Neel Malwatkar](https://github.com/neelmalwatkar)**
 - **[Anuj Gawde](https://github.com/anujgawde)** 
 
-## 📄 License
-
-This project is licensed under the MIT License.
 
 ## 🤝 Contributing
 

@@ -1,4 +1,4 @@
-# Re:Gen - Intelligent Gmail Auto-Reply Assistant
+# Re:Gen - AI-Powered Gmail Reply Assistant
 
 <p align="center">
   <img src="https://img.shields.io/badge/Node.js-18+-green.svg" alt="Node.js Version">

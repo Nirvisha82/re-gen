@@ -1,0 +1,363 @@
+{
+  "nodes": [
+    {
+      "file": ".gitignore",
+      "language": "",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "README.md",
+      "language": "markdown",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/.gitignore",
+      "language": "",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/README.md",
+      "language": "markdown",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/eslint.config.mjs",
+      "language": "",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/next.config.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/package.json",
+      "language": "json",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/postcss.config.mjs",
+      "language": "",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/src/app/activated/page.jsx",
+      "language": "jsx",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/src/app/globals.css",
+      "language": "css",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/src/app/layout.tsx",
+      "language": "tsx",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/src/app/page.jsx",
+      "language": "jsx",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/src/components/base/BaseButton.jsx",
+      "language": "jsx",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/src/components/base/BaseDialog.jsx",
+      "language": "jsx",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/src/components/base/BaseInput.jsx",
+      "language": "jsx",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/src/components/base/BaseLoader.jsx",
+      "language": "jsx",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "client/tailwind.config.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "tailwindcss"
+      ]
+    },
+    {
+      "file": "client/tsconfig.json",
+      "language": "json",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "package.json",
+      "language": "json",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "server/.eslintrc.js",
+      "language": "javascript",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "server/.gitignore",
+      "language": "",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "server/.prettierrc",
+      "language": "json",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "server/README.md",
+      "language": "markdown",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "server/nest-cli.json",
+      "language": "json",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "server/package.json",
+      "language": "json",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "server/src/app.controller.spec.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "@nestjs/testing",
+        "./app.controller",
+        "./app.service"
+      ]
+    },
+    {
+      "file": "server/src/app.controller.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "@nestjs/common",
+        "./app.service"
+      ]
+    },
+    {
+      "file": "server/src/app.module.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "@nestjs/common",
+        "./app.controller",
+        "./app.service",
+        "./gmail/gmail.module",
+        "./llm/llm.service",
+        "@nestjs/config"
+      ]
+    },
+    {
+      "file": "server/src/app.service.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "@nestjs/common"
+      ]
+    },
+    {
+      "file": "server/src/database/sqlite.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "path"
+      ]
+    },
+    {
+      "file": "server/src/database/user.entity.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "server/src/database/user.repository.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "../database/sqlite",
+        "../database/user.entity"
+      ]
+    },
+    {
+      "file": "server/src/gmail/gmail.controller.spec.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "@nestjs/testing",
+        "./gmail.controller",
+        "./gmail.service"
+      ]
+    },
+    {
+      "file": "server/src/gmail/gmail.controller.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "./gmail.service"
+      ]
+    },
+    {
+      "file": "server/src/gmail/gmail.module.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "@nestjs/common",
+        "./gmail.service",
+        "./gmail.controller"
+      ]
+    },
+    {
+      "file": "server/src/gmail/gmail.service.spec.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "@nestjs/testing",
+        "./gmail.service"
+      ]
+    },
+    {
+      "file": "server/src/gmail/gmail.service.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "@nestjs/common",
+        "googleapis",
+        "@google-cloud/pubsub",
+        "../llm/llm.service",
+        "fs",
+        "path",
+        "../database/user.repository"
+      ]
+    },
+    {
+      "file": "server/src/llm/llm.service.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "@nestjs/common",
+        "axios"
+      ]
+    },
+    {
+      "file": "server/src/main.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "@nestjs/core",
+        "./app.module",
+        "body-parser"
+      ]
+    },
+    {
+      "file": "server/test/app.e2e-spec.ts",
+      "language": "typescript",
+      "dependencies": [],
+      "exports": [],
+      "imports": [
+        "@nestjs/testing",
+        "@nestjs/common",
+        "supertest",
+        "./../src/app.module"
+      ]
+    },
+    {
+      "file": "server/test/jest-e2e.json",
+      "language": "json",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "server/tsconfig.build.json",
+      "language": "json",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    },
+    {
+      "file": "server/tsconfig.json",
+      "language": "json",
+      "dependencies": [],
+      "exports": [],
+      "imports": []
+    }
+  ],
+  "generated_at": "2025-10-23T12:21:20.638787-04:00",
+  "repo_url": ""
+}
